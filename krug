@@ -1,0 +1,96 @@
+<html>
+<body>
+<table>
+<tr><td><canvas id='lab04' height='500' width='500' style='border:1px solid;'></td>
+</tr>
+</table>
+<script>
+   
+   var x;
+   var y;
+   var flag = 0;
+   var c='#008800'; 
+   var canvas = document.getElementById('lab04');
+   var ctx = canvas.getContext('2d');
+   ctx.fillStyle = '#aaaaaa';
+     function putpixel(x,y){ 
+    ctx.fillRect(x,y,1,1); 
+   
+    } 
+    function onClick(event)
+   {
+      flag = 0;
+      while (flag == 0)
+      {
+        x = event.offsetX;
+        y = event.offsetY;
+        circle(x,y,20)
+        flag = 1;
+      }
+   }
+   canvas.addEventListener("click", onClick);
+   
+  
+  
+   
+   
+   function sim( xc, yc, x, y) 
+  { 
+     putpixel(x+xc,y+yc); 
+     putpixel(x+xc,-y+yc) ; 
+     putpixel(-x+xc,-y+yc) ; 
+     putpixel(-x+xc,y+yc); 
+     putpixel(y+xc,x+yc) ; 
+     putpixel(y+xc,-x+yc) ; 
+     putpixel(-y+xc,-x+yc) ; 
+     putpixel(-y+xc,x+yc); 
+  }  
+function circle( xc, yc, r) 
+  { var x,y,d; 
+     d=3-2*r; 
+     x=0; 
+     y=r; 
+    
+     while (x<=y) 
+     { 
+     
+      sim(xc,yc,x,y); 
+        if (d<0) d=d+4*x+6; 
+        else {d=d+4*(x-y)+10; y--;} 
+         x++; 
+     
+     } 
+  }  
+  
+   function Drawline(x1,y1,x2,y2)
+   {
+    var deltaX = Math.abs(x2 - x1);
+    var deltaY = Math.abs(y2 - y1);
+    var signX = x1 < x2 ? 1 : -1;
+    var signY = y1 < y2 ? 1 : -1;
+    //
+    var error = deltaX - deltaY;
+    //
+    ctx.fillRect(x2,y2,1,1);
+    while((x1 != x2) || (y1 != y2)) 
+   {
+        
+        ctx.fillRect(x1,y1,1,1);
+        var error2 = error * 2;
+        //
+        if(error2 > -deltaY) 
+        {
+            error -= deltaY;
+            x1 += signX;
+        }
+        if(error2 < deltaX) 
+        {
+            error += deltaX;
+            y1 += signY;
+        }
+       
+    }
+   }
+</script>
+</body>
+</html>
